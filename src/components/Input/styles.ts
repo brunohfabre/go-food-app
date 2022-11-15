@@ -6,17 +6,27 @@ import { sizes } from '../../styles/sizes'
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    width: '100%',
     height: 48,
     borderRadius: sizes.borderRadius,
 
-    alignItems: 'center',
-    justifyContent: 'center',
+    gap: 4,
 
-    backgroundColor: colors.primary,
+    backgroundColor: colors.gray4,
   },
-  text: {
-    color: colors.white,
-    fontWeight: '500',
+  label: {
+    color: colors.gray11,
+    fontSize: 16,
+  },
+  input: {
+    flex: 1,
+    paddingHorizontal: 12,
+  },
+  error: {
+    color: colors.red11,
     fontSize: 16,
   },
 })

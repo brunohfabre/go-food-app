@@ -1,7 +1,10 @@
 import React, { useRef, useEffect, useCallback } from 'react'
-import { TextInput, TextInputProps, Text } from 'react-native'
+import { TextInput, TextInputProps, Text, View } from 'react-native'
 
 import { useField } from '@unform/core'
+
+import { colors } from '../../styles/colors'
+import { styles } from './styles'
 
 interface InputProps extends TextInputProps {
   name: string
@@ -55,17 +58,21 @@ export function Input({ name, label, onChangeText, ...rest }: InputProps) {
   )
 
   return (
-    <>
-      {label && <Text>{label}</Text>}
+    <View style={styles.container}>
+      {label && <Text style={styles.label}>{label}</Text>}
 
-      <TextInput
-        ref={inputRef}
-        onChangeText={handleChangeText}
-        defaultValue={defaultValue}
-        {...rest}
-      />
+      <View style={styles.inputContainer}>
+        <TextInput
+          ref={inputRef}
+          onChangeText={handleChangeText}
+          defaultValue={defaultValue}
+          placeholderTextColor={colors.gray8}
+          style={styles.input}
+          {...rest}
+        />
+      </View>
 
-      {error && <Text>{error}</Text>}
-    </>
+      {error && <Text style={styles.error}>{error}</Text>}
+    </View>
   )
 }

@@ -3,6 +3,7 @@ import { View } from 'react-native'
 
 import { z } from 'zod'
 
+import { useNavigation } from '@react-navigation/native'
 import { FormHandles } from '@unform/core'
 import { Form } from '@unform/mobile'
 
@@ -18,6 +19,8 @@ const testFormSchema = z.object({
 })
 
 export function Home() {
+  const navigation = useNavigation()
+
   const formRef = useRef<FormHandles>(null)
 
   function handleSubmit(data: any) {
@@ -35,12 +38,12 @@ export function Home() {
   }
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ flex: 1, justifyContent: 'center' }}>
       <IconButton>
         <CaretLeft />
       </IconButton>
 
-      <Button onPress={() => formRef.current?.submitForm()}>Next route</Button>
+      <Button onPress={() => navigation.navigate('order')}>Next route</Button>
 
       <LinkButton>Criar conta.</LinkButton>
 
