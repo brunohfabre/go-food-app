@@ -1,5 +1,3 @@
-import { Text, View } from 'react-native'
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
@@ -11,24 +9,31 @@ import { Order } from '../pages/Order'
 import { Orders } from '../pages/Orders'
 import { Product } from '../pages/Product'
 import { Profile } from '../pages/Profile'
+import { ProfileDetails } from '../pages/Profile/ProfileDetails'
 import { Search } from '../pages/Search'
 import { SignIn } from '../pages/SignIn'
 import { SignUp } from '../pages/SignUp'
 import { Start } from '../pages/Start'
+import { CustomTabBar } from './CustomTabBar'
 import { Empty } from './Empty'
 
 type RootStackParamList = {
   'home-tab': undefined
   search: undefined
-  product: undefined
+  product: {
+    id: string
+  }
   cart: undefined
   checkout: undefined
-  order: undefined
+  order: {
+    id: string
+  }
   signin: undefined
   signup: undefined
   start: undefined
   address: undefined
   profile: undefined
+  'profile-details': undefined
 }
 
 declare global {
@@ -40,35 +45,36 @@ declare global {
 const Stack = createNativeStackNavigator<RootStackParamList>()
 const BottomTab = createBottomTabNavigator()
 
-function CustomTabBar(props: any) {
-  console.log(props)
-
-  return (
-    <View>
-      <Text>custom tab bar</Text>
-    </View>
-  )
-}
-
 function HomeBottomTab() {
   return (
-    <BottomTab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
-      <BottomTab.Screen name="home" component={Home} />
-      <BottomTab.Screen name="orders" component={Orders} />
-      <BottomTab.Screen name="profile" component={Empty} />
+    <BottomTab.Navigator
+      tabBar={(props) => <CustomTabBar {...props} />}
+      screenOptions={{ headerShown: false }}
+    >
+      <BottomTab.Screen
+        name="home"
+        component={Home}
+        options={{
+          tabBarLabel: 'Inicio',
+        }}
+      />
+      <BottomTab.Screen
+        name="orders"
+        component={Orders}
+        options={{ tabBarLabel: 'Pedidos' }}
+      />
+      <BottomTab.Screen
+        name="profile"
+        component={Empty}
+        options={{ tabBarLabel: 'Perfil' }}
+      />
     </BottomTab.Navigator>
   )
 }
 
 export function AppRoutes() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: 'tomato',
-        },
-      }}
-    >
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="home-tab" component={HomeBottomTab} />
       <Stack.Screen name="search" component={Search} />
       <Stack.Screen name="product" component={Product} />
@@ -80,6 +86,7 @@ export function AppRoutes() {
       <Stack.Screen name="start" component={Start} />
       <Stack.Screen name="address" component={Address} />
       <Stack.Screen name="profile" component={Profile} />
+      <Stack.Screen name="profile-details" component={ProfileDetails} />
     </Stack.Navigator>
   )
 }

@@ -29,4 +29,9 @@ export const styles = StyleSheet.create({
     color: colors.red11,
     fontSize: 16,
   },
+  showPassButton: {
+    height: 48,
+    paddingHorizontal: 12,
+    justifyContent: 'center',
+  },
 })

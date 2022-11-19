@@ -1,22 +1,40 @@
-import React, { useRef, useEffect, useCallback } from 'react'
-import { TextInput, TextInputProps, Text, View } from 'react-native'
+import React, { useRef, useEffect, useCallback, useState } from 'react'
+import {
+  TextInput,
+  TextInputProps,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native'
 
 import { useField } from '@unform/core'
 
+import { EyeFill } from '../../assets/icons/EyeFill'
+import { EyeSlashFill } from '../../assets/icons/EyeSlashFill'
 import { colors } from '../../styles/colors'
 import { styles } from './styles'
 
 interface InputProps extends TextInputProps {
   name: string
   label: string
+  type?: 'text' | 'password'
 }
 
 interface InputReference extends TextInput {
   value: string
 }
 
-export function Input({ name, label, onChangeText, ...rest }: InputProps) {
+export function Input({
+  name,
+  label,
+  onChangeText,
+  style,
+  type = 'text',
+  ...rest
+}: InputProps) {
   const inputRef = useRef<InputReference>(null)
+
+  const [passwordVisible, setPasswordVisible] = useState(false)
 
   const { fieldName, registerField, defaultValue = '', error } = useField(name)
 
@@ -58,7 +76,7 @@ export function Input({ name, label, onChangeText, ...rest }: InputProps) {
   )
 
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, ...style }}>
       {label && <Text style={styles.label}>{label}</Text>}
 
       <View style={styles.inputContainer}>
@@ -68,8 +86,17 @@ export function Input({ name, label, onChangeText, ...rest }: InputProps) {
           defaultValue={defaultValue}
           placeholderTextColor={colors.gray8}
           style={styles.input}
+          secureTextEntry={type === 'password' && !passwordVisible}
           {...rest}
         />
+        {type === 'password' && (
+          <TouchableOpacity
+            onPress={() => setPasswordVisible((prevState) => !prevState)}
+            style={styles.showPassButton}
+          >
+            {passwordVisible ? <EyeSlashFill /> : <EyeFill />}
+          </TouchableOpacity>
+        )}
       </View>
 
       {error && <Text style={styles.error}>{error}</Text>}
